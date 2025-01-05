@@ -15,7 +15,7 @@ import {
 // import logo from "../../../Images/logo.png"
 export const NariaHolidaysLogo = () => {
     return (
-        <img src="https://i.ibb.co.com/84RqZNX/logo.png" alt="Acme Logo" className="h-16 w-auto" />
+        <img src="https://i.ibb.co.com/84RqZNX/logo.png" alt="Naria Holidays Logo" className="h-20 w-auto" />
 
     );
 };
