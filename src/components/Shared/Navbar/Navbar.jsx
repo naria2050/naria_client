@@ -32,7 +32,7 @@ export default function App() {
         "Deployments",
         "My Settings",
         "Team Settings",
-        "Help & Feedback",
+        "Help & Feedback ",
         "Log Out",
     ];
 
