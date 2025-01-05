@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
+import Link from 'next/link';
 import React from 'react';
 
 const ContactUsPage = () => {
@@ -7,7 +8,10 @@ const ContactUsPage = () => {
             <h1 className="text-4xl font-bold mb-4 text-blue-600">Contact Us Page</h1>
             <p className="text-lg mb-2 text-gray-700">This is the Contact Us Page.</p>
             <p className="text-lg mb-6 text-gray-700">Please feel free to reach out to us.</p>
-            <a href="/" className="text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out">Go back to Homepage</a>
+            <Link href="/" className="text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out">Go back to Homepage</Link>
+
+            <button className="btn btn-secondary">Button</button>
+
         </div>
     );
 };
