@@ -1,218 +1,250 @@
 "use client";
-import React from "react";
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarMenuToggle,
-    NavbarMenuItem,
-    NavbarMenu,
-    NavbarContent,
-    NavbarItem,
-    Button,
-    Dropdown,
-    DropdownTrigger,
-    DropdownMenu,
-    DropdownItem,
-} from "@nextui-org/react";
-import NextLink from "next/link";
-import { FaPlane, FaHotel, FaUmbrellaBeach, FaPassport, FaEllipsisH, FaHeartbeat } from "react-icons/fa"; // Import main icons
+// Import required libraries
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { MdKeyboardArrowDown, MdOutlineMedicalServices, MdOutlinePhoneEnabled } from "react-icons/md";
+import { LuHotel, LuPlane } from "react-icons/lu";
+import { LiaCcVisa } from "react-icons/lia";
 
-export const NariaHolidaysLogo = () => {
-    return (
-        <img
-            src="https://i.ibb.co.com/84RqZNX/logo.png"
-            alt="Naria Holidays Logo"
-            className="h-14 sm:h-10 md:h-15 lg:h-20"
-        />
-    );
-};
+export default function Navbar() {
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(null);
 
-export default function App() {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-    const dropdownIcons = {
-        chevron: <span className="p-0"></span>, // Replace with a proper chevron if needed
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!isMobileMenuOpen);
     };
 
+    const handleDropdownToggle = (index) => {
+        setOpenDropdown(openDropdown === index ? null : index);
+    };
+
+    const closeDropdown = () => {
+        setOpenDropdown(null);
+    };
+
+    const closeMobileMenu = () => {
+        setMobileMenuOpen(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (!event.target.closest(".dropdown-menu")) {
+            setOpenDropdown(null);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const menuItems = [
+        { name: "Flights", href: "/about", icon: LuPlane },
+        { name: "Hotels", href: "/contact", icon: LuHotel },
+        {
+            name: "Holiday",
+            href: "",
+            icon: MdOutlineMedicalServices,
+            subMenu: [
+                { name: "Medical Services", href: "/medical/services" },
+                { name: "Insurance", href: "/medical/insurance" },
+            ],
+        },
+        {
+            name: "Visa",
+            href: "",
+            icon: LiaCcVisa,
+            subMenu: [
+                { name: "Apply for Visa", href: "/visa/apply" },
+                { name: "Visa Status", href: "/visa/status" },
+            ],
+        },
+        {
+            name: "Hajj Packages",
+            href: "",
+            icon: MdOutlineMedicalServices,
+            subMenu: [
+                { name: "Medical Services", href: "/medical/services" },
+                { name: "Insurance", href: "/medical/insurance" },
+            ],
+        },
+        {
+            name: "Umrah Packages",
+            href: "",
+            icon: MdOutlineMedicalServices,
+            subMenu: [
+                { name: "Medical Services", href: "/medical/services" },
+                { name: "Insurance", href: "/medical/insurance" },
+            ],
+        },
+        { name: "Contact Us", href: "/contact", icon: MdOutlinePhoneEnabled },
+    ];
+
     return (
-        <Navbar
-            isBordered
-            isMenuOpen={isMenuOpen}
-            onMenuOpenChange={setIsMenuOpen}
-            className="mx-auto  "
-        >
-            {/* Mobile menu toggle */}
-            <NavbarContent className="sm:hidden" justify="start">
-                <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
-            </NavbarContent>
+        <>
+            <nav className="bg-white border-b fixed w-full z-10 ">
+                <div className="container mx-auto px-4 flex justify-between items-center py-2">
+                    {/* Logo */}
+                    <Link href="/" legacyBehavior>
+                        <a>
+                            <Image
+                                src="https://i.ibb.co.com/84RqZNX/logo.png"
+                                alt="Logo"
+                                width={150}
+                                height={50}
+                                className="cursor-pointer"
+                            />
+                        </a>
+                    </Link>
 
-            {/* Centered Logo */}
-            <NavbarContent justify="start" className="gap-4">
-                <NavbarBrand>
-                    <NariaHolidaysLogo />
-                </NavbarBrand>
-            </NavbarContent>
+                    {/* Desktop Menu */}
+                    <ul className="hidden md:flex space-x-6 items-center font-semibold ">
+                        {menuItems.map((item, index) => (
+                            <li key={item.name} className="relative group dropdown-menu">
+                                <Link href={item.href} legacyBehavior>
+                                    <a
+                                        className="flex items-center text-gray-700 hover:text-naria-color cursor-pointer transition"
+                                        onClick={() => handleDropdownToggle(index)}
+                                    >
+                                        <item.icon className="mr-2 size-5" />
+                                        <span>{item.name}</span>
+                                        {item.subMenu && (
+                                            <motion.div
+                                                initial={{ rotate: 0 }}
+                                                animate={{ rotate: openDropdown === index ? 180 : 0 }}
+                                                className="ml-1"
+                                            >
+                                                <MdKeyboardArrowDown />
+                                            </motion.div>
+                                        )}
+                                    </a>
+                                </Link>
+                                {item.subMenu && openDropdown === index && (
+                                    <motion.ul
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="absolute left-0 mt-2 bg-white shadow-lg py-2 w-40"
+                                    >
+                                        {item.subMenu.map((subItem) => (
+                                            <li key={subItem.name}>
+                                                <Link href={subItem.href} legacyBehavior>
+                                                    <a className="block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:nariaH">
+                                                        {subItem.name}
+                                                    </a>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </motion.ul>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
 
-            {/* Main Navigation */}
-            <NavbarContent justify="center" className="hidden sm:flex gap-5 mx-auto pl-8">
-                {/* Flight */}
-                <NavbarItem>
-                    <NextLink href="/flight" className="hover:text-primary flex items-center">
-                        <FaPlane className="mr-2" /> Flight
-                    </NextLink>
-                </NavbarItem>
+                    {/* Login/Signup Buttons */}
+                    <div className="hidden md:flex space-x-4">
+                        <Link href="/login" legacyBehavior>
+                            <a className="text-white font-semibold border bg-naria-color px-4 py-2 rounded-3xl hover:bg-naria-color hover:text-white transition">
+                                Login
+                            </a>
+                        </Link>
+                        {/* <Link href="/signup" legacyBehavior>
+                            <a className="bg-naria-color text-white px-4 py-2 rounded hover:bg-[blue-700] transition">
+                                Signup
+                            </a>
+                        </Link> */}
+                    </div>
 
-                {/* Hotel */}
-                <NavbarItem>
-                    <NextLink href="/hotel" className="hover:text-primary flex items-center">
-                        <FaHotel className="mr-2" /> Hotel
-                    </NextLink>
-                </NavbarItem>
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="md:hidden focus:outline-none text-gray-700"
+                        onClick={toggleMobileMenu}
+                    >
+                        <span className="sr-only">Toggle Mobile Menu</span>
+                        <div className="space-y-1">
+                            <motion.div
+                                className="w-6 h-0.5 bg-gray-700"
+                                animate={{ rotate: isMobileMenuOpen ? 45 : 0, y: isMobileMenuOpen ? 8 : 0 }}
+                            ></motion.div>
+                            <motion.div
+                                className="w-6 h-0.5 bg-gray-700"
+                                animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
+                            ></motion.div>
+                            <motion.div
+                                className="w-6 h-0.5 bg-gray-700"
+                                animate={{ rotate: isMobileMenuOpen ? -45 : 0, y: isMobileMenuOpen ? -8 : 0 }}
+                            ></motion.div>
+                        </div>
+                    </button>
+                </div>
 
-                {/* Holiday */}
-                <NavbarItem>
-                    <NextLink href="/holiday" className="hover:text-primary flex items-center">
-                        <FaUmbrellaBeach className="mr-2" /> Holiday
-                    </NextLink>
-                </NavbarItem>
+                {/* Mobile Menu */}
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="bg-white shadow-md md:hidden"
+                    >
+                        <ul className="space-y-4 px-4 py-6">
+                            {menuItems.map((item, index) => (
+                                <li key={item.name} className="relative dropdown-menu">
+                                    <div
+                                        className="flex items-center text-gray-700 hover:text-blue-600 cursor-pointer"
+                                        onClick={() => handleDropdownToggle(index)}
+                                    >
+                                        <item.icon className="mr-2" />
+                                        <span>{item.name}</span>
+                                        {item.subMenu && (
+                                            <motion.div
+                                                initial={{ rotate: 0 }}
+                                                animate={{ rotate: openDropdown === index ? 180 : 0 }}
+                                                className="ml-1"
+                                            >
+                                                <MdKeyboardArrowDown />
+                                            </motion.div>
+                                        )}
+                                    </div>
+                                    {item.subMenu && openDropdown === index && (
+                                        <ul className="pl-4 mt-2 space-y-2">
+                                            {item.subMenu.map((subItem) => (
+                                                <li key={subItem.name}>
+                                                    <Link
+                                                        href={subItem.href}
+                                                        legacyBehavior
+                                                        onClick={closeMobileMenu}
+                                                    >
+                                                        <a className="block text-gray-600 hover:text-blue-500">
+                                                            {subItem.name}
+                                                        </a>
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
 
-                {/* Dropdown for Visa */}
-                <Dropdown >
-                    <NavbarItem>
-                        <DropdownTrigger>
-                            <Button
-                                disableRipple
-                                className="hover:text-primary flex items-center p-0"
-                                // endContent={dropdownIcons.chevron}
-                                // radius="sm"
-                                variant="light"
-                            >
-                                Visa ▼
-                            </Button>
-                        </DropdownTrigger>
-                    </NavbarItem>
-                    <DropdownMenu aria-label="Visa Options" className="w-[250px]">
-                        <DropdownItem key="visa-application" startContent="📄">
-                            Visa Application
-                        </DropdownItem>
-                        <DropdownItem key="visa-guide" startContent="📘">
-                            Visa Guide
-                        </DropdownItem>
-                        <DropdownItem key="transit-visa" startContent="🚏">
-                            Transit Visa
-                        </DropdownItem>
-                        <DropdownItem key="tourist-visa" startContent="🌏">
-                            Tourist Visa
-                        </DropdownItem>
-                        <DropdownItem key="work-visa" startContent="💼">
-                            Work Visa
-                        </DropdownItem>
-                        <DropdownItem key="student-visa" startContent="🎓">
-                            Student Visa
-                        </DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-
-                {/* Dropdown for Others */}
-                <Dropdown>
-                    <NavbarItem>
-                        <DropdownTrigger>
-                            <Button
-                                disableRipple
-                                className="p-0 bg-transparent data-[hover=true]:bg-transparent flex items-center"
-                                endContent={dropdownIcons.chevron}
-                                radius="sm"
-                                variant="light"
-                            >
-                                Others ▼
-                            </Button>
-                        </DropdownTrigger>
-                    </NavbarItem>
-                    <DropdownMenu aria-label="Other Services" className="w-[250px]">
-                        <DropdownItem key="about" startContent="ℹ️">
-                            About
-                        </DropdownItem>
-                        <DropdownItem key="skytrip" startContent="✈️">
-                            SkyTrip
-                        </DropdownItem>
-                        <DropdownItem key="why-naria-holidays" startContent="🤔">
-                            Why Naria Holidays?
-                        </DropdownItem>
-                        <DropdownItem key="travel-guide" startContent="📍">
-                            Travel Guide
-                        </DropdownItem>
-                        <DropdownItem key="news" startContent="📰">
-                            News
-                        </DropdownItem>
-                        <DropdownItem key="car-rental" startContent="🚗">
-                            Car Rental
-                        </DropdownItem>
-                        <DropdownItem key="travel-insurance" startContent="🛡️">
-                            Travel Insurance
-                        </DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-
-                {/* Dropdown for Medical */}
-                <Dropdown>
-                    <NavbarItem>
-                        <DropdownTrigger>
-                            <Button
-                                disableRipple
-                                className="p-0 bg-transparent data-[hover=true]:bg-transparent flex items-center"
-                                endContent={dropdownIcons.chevron}
-                                radius="sm"
-                                variant="light"
-                            >
-                                Medical ▼
-                            </Button>
-                        </DropdownTrigger>
-                    </NavbarItem>
-                    <DropdownMenu aria-label="Medical Services" className="w-[250px]">
-                        <DropdownItem key="medical-services" startContent="🩺">
-                            Medical Services
-                        </DropdownItem>
-                        <DropdownItem key="health-insurance" startContent="🛡️">
-                            Health Insurance
-                        </DropdownItem>
-                        <DropdownItem key="travel-health-advice" startContent="💊">
-                            Travel-Related Health Advice
-                        </DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-            </NavbarContent>
-
-            {/* Login and Signup */}
-            <NavbarContent justify="end" className="gap-4">
-                <NavbarItem className="hidden lg:flex">
-                    <NextLink href="/login" className="hover:text-primary">
-                        Login
-                    </NextLink>
-                </NavbarItem>
-                <NavbarItem>
-                    <Button as={NextLink} href="/signup" color="warning" variant="flat">
-                        Sign Up
-                    </Button>
-                </NavbarItem>
-            </NavbarContent>
-
-            {/* Dropdown Menu for Small Screens */}
-            <NavbarMenu>
-                {[
-                    { name: "Flight", href: "/flight" },
-                    { name: "Hotel", href: "/hotel" },
-                    { name: "Holiday", href: "/holiday" },
-                    { name: "Visa", href: "/visa" },
-                    { name: "Others", href: "/others" },
-                    { name: "Medical", href: "/medical" },
-                ].map((item, index) => (
-                    <NavbarMenuItem key={index}>
-                        <NextLink href={item.href} className="w-full hover:text-primary">
-                            {item.name}
-                        </NextLink>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
-        </Navbar>
+                        {/* Login/Signup Buttons for Mobile */}
+                        <div className="space-y-4 px-4 py-6">
+                            <Link href="/login" legacyBehavior onClick={closeMobileMenu}>
+                                <a className="block text-blue-600 border border-blue-600 px-4 py-2 text-center rounded-lg hover:bg-naria-color hover:text-white transition">
+                                    Login
+                                </a>
+                            </Link>
+                            {/* <Link href="/signup" legacyBehavior onClick={closeMobileMenu}>
+                                <a className="block bg-naria-color text-white text-center px-4 py-2 rounded hover:bg-blue-700 transition">
+                                    Signup
+                                </a>
+                            </Link> */}
+                        </div>
+                    </motion.div>
+                )}
+            </nav>
+        </>
     );
 }
