@@ -15,6 +15,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         "naria-color": "#df7f12",
+        "naria-holiday-blue": "#2e334d",
       },
     },
   },

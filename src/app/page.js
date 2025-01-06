@@ -1,17 +1,18 @@
-import Link from 'next/link';
-import React from 'react';
+import React from "react";
+import HeroSection from "@/components/Shared/HomePage/HeroSection";
+import TabsSection from "@/components/Shared/HomePage/TabsSection";
+import PromotionalSection from "@/components/Shared/HomePage/PromotionalSection";
 
-const page = () => {
+const HomePage = () => {
   return (
-    <div className='text-center mt5'>
-      <h1>Welcome to Naria Holidays</h1>
-      <p>This is a simple holiday website built with Next.js</p>
-      <Link href="https://nextjs.org">Learn More</Link>
-      <p>Powered by <a href="https://vercel.com">Vercel</a></p>
-      <p>Built by <a href="https://github.com/r91">R91</a></p>
-      <p>Last updated: {new Date().toLocaleDateString()}</p>
+    <div className="relative bg-gray-50 min-h-screen">
+      <div className="relative w-full">
+        <HeroSection />
+        <TabsSection />
+      </div>
+      <PromotionalSection />
     </div>
   );
 };
 
-export default page;
+export default HomePage;

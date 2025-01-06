@@ -46,7 +46,7 @@ export default function Navbar() {
         { name: "Hotels", href: "/contact", icon: LuHotel },
         {
             name: "Holiday",
-            href: "#",
+            href: "",
             icon: MdOutlineMedicalServices,
             subMenu: [
                 { name: "Medical Services", href: "/medical/services" },
@@ -55,7 +55,7 @@ export default function Navbar() {
         },
         {
             name: "Visa",
-            href: "#",
+            href: "",
             icon: LiaCcVisa,
             subMenu: [
                 { name: "Apply for Visa", href: "/visa/apply" },
@@ -64,7 +64,7 @@ export default function Navbar() {
         },
         {
             name: "Hajj Packages",
-            href: "#",
+            href: "",
             icon: MdOutlineMedicalServices,
             subMenu: [
                 { name: "Medical Services", href: "/medical/services" },
@@ -73,7 +73,7 @@ export default function Navbar() {
         },
         {
             name: "Umrah Packages",
-            href: "#",
+            href: "",
             icon: MdOutlineMedicalServices,
             subMenu: [
                 { name: "Medical Services", href: "/medical/services" },
