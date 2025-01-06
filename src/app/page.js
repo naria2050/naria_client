@@ -3,7 +3,7 @@ import React from 'react';
 
 const page = () => {
   return (
-    <div className='text-center '>
+    <div className='text-center mt5'>
       <h1>Welcome to Naria Holidays</h1>
       <p>This is a simple holiday website built with Next.js</p>
       <Link href="https://nextjs.org">Learn More</Link>
