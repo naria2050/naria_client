@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
@@ -13,6 +14,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "naria-color": "#df7f12",
       },
     },
   },

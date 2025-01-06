@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
 
-        <div className="mt-[52px] minhs">
+        <div className="mt-[px] minhs">
           {children}
         </div>
 
