@@ -1,16 +1,20 @@
-import React from "react";
 import HeroSection from "@/components/Shared/HomePage/HeroSection";
-import TabsSection from "@/components/Shared/HomePage/TabsSection";
+import HeroTabs from "@/components/Shared/HomePage/HeroTabs";
+import MostPopularDestinationCarousel from "@/components/Shared/HomePage/MostPopularDestinationCarousel";
 import PromotionalSection from "@/components/Shared/HomePage/PromotionalSection";
+import UpcomingPackages from "@/components/Shared/HomePage/UpcomingPackages";
 
 const HomePage = () => {
   return (
-    <div className="relative bg-gray-50 min-h-screen">
-      <div className="relative w-full">
+    <div className="relative bg-gray-100 ">
+      <div className="relative w-full rounded-3xl">
         <HeroSection />
-        <TabsSection />
+        <HeroTabs />
       </div>
       <PromotionalSection />
+      <UpcomingPackages />
+      <MostPopularDestinationCarousel />
+      {/* <RollingGallery autoplay={true} pauseOnHover={true} /> */}
     </div>
   );
 };

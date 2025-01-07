@@ -41,8 +41,8 @@ const PromotionalSection = () => {
     ];
 
     return (
-        <section className="py-12">
-            <div className="max-w-5xl mx-auto relative">
+        <section className="py-12 mt-20 rounded-3xl">
+            <div className="max-w-[1160px] mx-auto relative">
                 <h2 className="text-start text-3xl font-bold mb-8 mt-16">
                     Exclusive Offers
                 </h2>

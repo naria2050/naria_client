@@ -26,7 +26,7 @@ const Footer = () => {
         { src: "https://cdn.sharetrip.net/sharetrip_net/production/public/images/sample-images/we-accept/dinners-club.svg", alt: "dinners-club" },
     ];
     return (
-        <footer className="relative w-full mt-10 bg-[#AEDFFE]">
+        <footer className="relative w-full  bg-[#AEDFFE]">
             {/* Wave Background */}
             <Wave className="absolute inset-0" fill="#8ED1FC"
                 paused={false}
