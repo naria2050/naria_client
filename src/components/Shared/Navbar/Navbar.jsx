@@ -85,7 +85,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="bg-white border-b fixed w-full z-10 ">
+            <nav className="bg-white border-b fixed w-full z-50 ">
                 <div className="container mx-auto px-4 flex justify-between items-center py-2">
                     {/* Logo */}
                     <Link href="/" legacyBehavior>

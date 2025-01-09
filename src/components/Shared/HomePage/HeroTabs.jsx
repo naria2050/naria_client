@@ -7,6 +7,7 @@ import { LiaCcVisa } from "react-icons/lia";
 // import { LuPlane } from "react-icons/lu";
 import { PiPlanet } from "react-icons/pi";
 import FlightTab from "../HeroTabsFolder/FlightTab";
+import Link from "next/link";
 
 const TabsSection = () => {
     const [selectedTab, setSelectedTab] = useState("flight");
@@ -15,7 +16,7 @@ const TabsSection = () => {
         {
             key: "flight",
             title: "Flight",
-            icon: <LuPlane/>,
+            icon: <LuPlane />,
             activeColor: "text-[#de8007]",
             inactiveColor: "text-gray-400",
         },
@@ -44,14 +45,14 @@ const TabsSection = () => {
                         key={tab.key}
                         onClick={() => setSelectedTab(tab.key)}
                         className={`relative flex items-center gap-2 px-6 py-3 text-sm font-medium transition ${selectedTab === tab.key
-                                ? "text-blue-600 font-semibold"
-                                : "text-gray-600 hover:text-gray-800"
+                            ? "text-blue-600 font-semibold"
+                            : "text-gray-600 hover:text-gray-800"
                             }`}
                     >
                         <span
                             className={`transition-colors ${selectedTab === tab.key
-                                    ? tab.activeColor
-                                    : tab.inactiveColor
+                                ? tab.activeColor
+                                : tab.inactiveColor
                                 }`}
                         >
                             {tab.icon}
@@ -79,7 +80,7 @@ const TabsSection = () => {
                 >
                     {selectedTab === "flight" && (
                         <div>
-                           <FlightTab/>
+                            <FlightTab />
                         </div>
                     )}
                     {selectedTab === "hotel" && (
@@ -95,6 +96,14 @@ const TabsSection = () => {
                         </div>
                     )}
                 </motion.div>
+                <div className="flex justify-center -mt-3">
+                    <Link href="/flight">
+                        <button className="mt-4 px-14 py-4 bg-naria-color text-white rounded-2xl shadow-md hover:bg-[#f9a83f] transition duration-300 flex items-center justify-center">
+                            Search
+                        </button>
+                    </Link>
+                </div>
+
             </div>
         </div>
     );

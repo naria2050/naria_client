@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
 
-        <div className="mt-[px] minhs ">
+        <div className="t-10 minhs ">
           {children}
         </div>
 
