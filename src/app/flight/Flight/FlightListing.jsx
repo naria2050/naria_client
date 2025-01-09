@@ -8,7 +8,7 @@ import { CustomAccordion } from "./CustomAccordion";
 
 
 const FlightListing = ({ flights }) => {
-    
+
     return (
         <div className=" min-h-screen px-4">
             {/* Header */}
@@ -38,20 +38,24 @@ const FlightListing = ({ flights }) => {
                                 {/* Left Side */}
                                 <div className="flex gap-4">
                                     <img
-                                        src={flight.img}
+                                        src={flight.airline_img}
                                         alt={`${flight.carrier} logo`}
                                         className="w-12 h-12 object-contain"
                                     />
                                     <div>
-                                        <h3 className="text-lg font-bold">{flight.route}</h3>
-                                        <p className="text-gray-500 text-sm">{flight.carrier}</p>
-                                        <p className="text-xs text-gray-400">{flight.duration}</p>
+                                        <div className="flex">
+                                            <h3 className="text-lg font-bold">{flight.departureAirportCode}</h3> - <h3 className="text-lg font-bold">{flight.arrivalAirportCode}</h3>
+                                        </div>
+                                        <p className="text-gray-500 text-sm">{flight.airline_name}</p>
+                                        <p className="text-xs text-gray-400">{flight.layoverTime}</p>
                                     </div>
                                 </div>
 
                                 {/* Timing and Flight Info */}
                                 <div className="text-center">
-                                    <p className="font-semibold text-gray-700">{flight.departureTime}</p>
+                                    <p className="font-semibold text-gray-700">
+                                        {new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date(flight.DepartureDateTime))}
+                                    </p>
                                     <p className="text-xs text-gray-500">{flight.departureDate}</p>
                                     <p className="text-xs text-gray-500">{flight.departureAirport}</p>
 

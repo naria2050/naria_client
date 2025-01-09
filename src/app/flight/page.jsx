@@ -34,8 +34,8 @@ const FlightPage = () => {
                 RequestOptions: "Fifty",
             });
 
-            setFlights(response.data.result); // Set fetched data to flights
-            console.log(response.result);
+            setFlights(response.data.results); // Set fetched data to flights
+            console.log(response.data.results);
             setLoading(false); // Stop loading
         } catch (error) {
             console.error("Error fetching flight data:", error);
