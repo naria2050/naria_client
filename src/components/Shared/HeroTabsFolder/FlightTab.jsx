@@ -1,18 +1,42 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Card, CardBody } from "@nextui-org/react";
 
-const FlightTab = () => {
+const FlightTab = ({ onFlightDataChange }) => {
     const [tripType, setTripType] = useState("oneWay");
     const [fareType, setFareType] = useState("regular");
     const [selectedFrom, setSelectedFrom] = useState("Dhaka");
-    const [selectedTo, setSelectedTo] = useState("Chittagong");
+    const [selectedTo, setSelectedTo] = useState("Cox's Bazar");
+    const [departureDate, setDepartureDate] = useState("");
 
-    const airportData = {
-        Dhaka: "Hazrat Shahjalal International Airport",
-        Chittagong: "Shah Amanat International",
-        Sylhet: "Osmani International Airport",
+    // Merged airport data with code and name
+    const airports = {
+        Dhaka: { name: "Hazrat Shahjalal International Airport", code: "DAC" },
+        "Cox's Bazar": { name: "Cox's Bazar Airport", code: "CXB" },
+        Sylhet: { name: "Osmani International Airport", code: "ZYL" },
+        Bangalore: { name: "Bangalore  International Airport", code: "BLR" },
+        Dubai: { name: "Dubai  International Airport", code: "DXB" },
     };
+
+    useEffect(() => {
+        if (onFlightDataChange) {
+            onFlightDataChange({
+                OriginDestinationInformations: [
+                    {
+                        DepartureDateTime: departureDate || new Date().toISOString(),
+                        OriginLocationCode: airports[selectedFrom].code,
+                        DestinationLocationCode: airports[selectedTo].code,
+                    },
+                ],
+                TravelPreferences: { AirTripType: tripType },
+                PricingSourceType: "Public",
+                PassengerTypeQuantities: [{ Code: "ADT", Quantity: 1 }],
+                RequestOptions: "Fifty",
+            });
+        }
+    }, [tripType, selectedFrom, selectedTo, departureDate]);
+
     const toggleLocations = () => {
         setSelectedFrom(selectedTo);
         setSelectedTo(selectedFrom);
@@ -42,8 +66,8 @@ const FlightTab = () => {
                             />
                             <span
                                 className={`w-4 h-4 border rounded-full flex items-center justify-center ${tripType === type.value
-                                        ? "border-red-500"
-                                        : "border-gray-400"
+                                    ? "border-red-500"
+                                    : "border-gray-400"
                                     }`}
                             >
                                 {tripType === type.value && (
@@ -64,14 +88,14 @@ const FlightTab = () => {
                             value={selectedFrom}
                             onChange={(e) => setSelectedFrom(e.target.value)}
                         >
-                            {Object.keys(airportData).map((city) => (
+                            {Object.keys(airports).map((city) => (
                                 <option key={city} value={city}>
                                     {city}
                                 </option>
                             ))}
                         </select>
                         <p className="text-xs text-gray-500 mt-1">
-                            {airportData[selectedFrom]}
+                            {airports[selectedFrom].name}
                         </p>
                     </div>
                     {/* Toggle Switch */}
@@ -104,23 +128,24 @@ const FlightTab = () => {
                             value={selectedTo}
                             onChange={(e) => setSelectedTo(e.target.value)}
                         >
-                            {Object.keys(airportData).map((city) => (
+                            {Object.keys(airports).map((city) => (
                                 <option key={city} value={city}>
                                     {city}
                                 </option>
                             ))}
                         </select>
                         <p className="text-xs text-gray-500 mt-1">
-                            {airportData[selectedTo]}
+                            {airports[selectedTo].name}
                         </p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium">Departure</label>
-                        <input type="date" className="w-full px-4 py-2 border rounded-lg" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium">Return</label>
-                        <input type="date" className="w-full px-4 py-2 border rounded-lg" />
+                        <input
+                            type="date"
+                            className="w-full px-4 py-2 border rounded-lg"
+                            value={departureDate}
+                            onChange={(e) => setDepartureDate(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -147,8 +172,8 @@ const FlightTab = () => {
                                 />
                                 <span
                                     className={`w-4 h-4 border rounded-full flex items-center justify-center ${fareType === fare.value
-                                            ? "border-red-500"
-                                            : "border-gray-400"
+                                        ? "border-red-500"
+                                        : "border-gray-400"
                                         }`}
                                 >
                                     {fareType === fare.value && (

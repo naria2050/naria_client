@@ -1,19 +1,44 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { MdOutlineAccessAlarm } from "react-icons/md";
-import PriceRange from "./PriceRange";
-import FlightListing from "./Flight/FlightListing";
+import PriceRange from "../../components/Flight/PriceRange";
+import FlightListing from "../../components/Flight/FlightListing";
 import axios from "axios";
 
 const FlightPage = () => {
+    const searchParams = useSearchParams(); // Use useSearchParams for query parameters
+    // console.log(searchParams)
     const [timeRemaining, setTimeRemaining] = useState(600);
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchFlightData = async () => {
+    const fetchFlightData = async (data) => {
         try {
-            const response = await axios.post("https://flightkiya.cosmelic.com/api/b2c/search", {
+            const response = await axios.post(
+                "https://flightkiya.cosmelic.com/api/b2c/search",
+                data
+            );
+            setFlights(response.data.results || []); // Set fetched flights data
+            console.log(response.data.results);
+            setLoading(false); // Stop loading
+        } catch (error) {
+            console.error("Error fetching flight data:", error);
+            setLoading(false); // Stop loading even if there's an error
+        }
+    };
+
+    useEffect(() => {
+        // Read the query parameter `data`
+        const data = searchParams.get("data");
+        console.log(data)
+        if (data) {
+            const parsedData = JSON.parse(decodeURIComponent(data));
+            console.log(parsedData);
+            fetchFlightData(parsedData); // Fetch flights based on passed data
+        } else {
+            fetchFlightData({
                 OriginDestinationInformations: [
                     {
                         DepartureDateTime: "2025-02-03T00:00:00",
@@ -32,19 +57,8 @@ const FlightPage = () => {
                     },
                 ],
                 RequestOptions: "Fifty",
-            });
-
-            setFlights(response.data.results); // Set fetched data to flights
-            console.log(response.data.results);
-            setLoading(false); // Stop loading
-        } catch (error) {
-            console.error("Error fetching flight data:", error);
-            setLoading(false); // Stop loading even if there's an error
+            }); // Default API call if no query params are present
         }
-    };
-
-    useEffect(() => {
-        fetchFlightData(); // Fetch flight data on component mount
 
         // Countdown Timer
         const timer = setInterval(() => {
@@ -58,7 +72,7 @@ const FlightPage = () => {
         }, 1000);
 
         return () => clearInterval(timer); // Cleanup timer
-    }, []);
+    }, [searchParams]);
 
     // Format time as MM:SS
     const minutes = Math.floor(timeRemaining / 60);
@@ -112,8 +126,9 @@ const FlightPage = () => {
                     <div className="flex-1 p-4">
                         {loading ? (
                             <div className="bg-white p-12 rounded-2xl shadow-md">
-                                <h1 className="text-3xl font-bold">Loading Flights...</h1>
-                                <p className="py-4">Please wait while we fetch the flight data.</p>
+                                <div className="h-10 w-full bg-gray-200 rounded-full animate-pulse"></div>
+                                <div className="h-6 w-1/2 bg-gray-200 rounded-full mt-4 animate-pulse"></div>
+                                <div className="h-6 w-1/4 bg-gray-200 rounded-full mt-4 animate-pulse"></div>
                             </div>
                         ) : timeRemaining === 0 || flights.length === 0 ? (
                             <div className="bg-white p-12 rounded-2xl shadow-md">

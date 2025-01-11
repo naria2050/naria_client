@@ -47,12 +47,12 @@ const PackageCard = ({ packageData }) => {
             {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition duration-300"></div>
             {/* Info on Hover */}
-            <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-70">
-                <h3 className="text-2xl font-bold text-white">{description}</h3>
-                <p className="text-xl text-white mt-1">{price}</p>
-                <p className="text-xl text-white">{duration}</p>
+            <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-20">
+                <h3 className="text-xl font-bold text-white">{description}</h3>
+                <p className="text-lg text-white mt-1">{price}</p>
+                <p className="text-sm text-white">{duration}</p>
                 <div className="mt-6 text-center">
-                    <h4 className="text-xl font-bold text-white bg-blue-600 py-2 px-4 rounded">{title}</h4>
+                    <button className=" btn text-base  font-semibold text-white bg-blue-600 py-2 px-4 rounded">{title}</button>
                 </div>
             </div>
         </div>

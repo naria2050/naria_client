@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 
 export const CustomAccordion = ({ details }) => {
+    console.log(details)
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleAccordion = () => {
@@ -16,9 +18,10 @@ export const CustomAccordion = ({ details }) => {
                 <div className="flex items-center gap-4">
                     <p className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded-lg">
                         {details.refundPolicy}
+                        Refund Policy
                     </p>
                     <p className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded-lg">
-                        ⭐ {details.rating}
+                       4 ⭐ {details.rating}
                     </p>
                     <p className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded-lg">
                         Pay Later
@@ -26,9 +29,16 @@ export const CustomAccordion = ({ details }) => {
                 </div>
                 <button
                     onClick={toggleAccordion}
-                    className="text-blue-500 text-sm font-semibold focus:outline-none"
+                    className="text-blue-500 text-sm font-semibold focus:outline-none border border-blue-500 rounded-lg px-4 py-2 flex items-center gap-2"
                 >
                     {isOpen ? "Hide Details" : "View Details"}
+                    <motion.span
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                    >
+                        <AiOutlineArrowDown />
+                    </motion.span>
                 </button>
             </div>
 
@@ -45,12 +55,12 @@ export const CustomAccordion = ({ details }) => {
                         <div className="flex-1 bg-[#f4f7fc] p-4 rounded-lg">
                             <div className="flex items-center mb-4">
                                 <span className="text-blue-500 text-lg mr-2">📍</span>
-                                <p className="font-semibold text-gray-700">Departure from {details.departureCity}</p>
+                                <p className="font-semibold text-gray-700">Departure from {details.departureAirportName}</p>
                             </div>
-                            <p className="text-sm text-gray-500 mb-4">{details.departureAirport}</p>
+                            <p className="text-sm text-gray-500 mb-4">{details.departureAirportCode}</p>
                             <div className="flex items-center mb-4">
                                 <img
-                                    src={details.img}
+                                    src={details.airline_img}
                                     alt="Airline Logo"
                                     className="w-8 h-8 mr-4"
                                 />
@@ -73,14 +83,14 @@ export const CustomAccordion = ({ details }) => {
                         <div className="flex-1 bg-[#f4f7fc] p-4 rounded-lg">
                             <div className="flex items-center mb-4">
                                 <span className="text-blue-500 text-lg mr-2">📍</span>
-                                <p className="font-semibold text-gray-700">Departure from {details.departureCity}</p>
+                                <p className="font-semibold text-gray-700">Arraival at {details.arrivalAirportName}</p>
                             </div>
                             <p className="text-sm text-gray-500 mb-4">
-                                {details.arrivalAirport}
+                                {details.arrivalAirportCode}
                             </p>
                             <div className="flex items-center mb-4">
                                 <img
-                                    src={details.img}
+                                    src={details.airline_img}
                                     alt="Airline Logo"
                                     className="w-8 h-8 mr-4"
                                 />
