@@ -1,7 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody, Dropdown } from "@nextui-org/react";
+import { IoIosSwap } from "react-icons/io";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { MdArrowDropDown, MdNoAdultContent } from "react-icons/md";
+import { IoMan } from "react-icons/io5";
+
 
 const FlightTab = ({ onFlightDataChange }) => {
     const [tripType, setTripType] = useState("oneWay");
@@ -46,8 +58,8 @@ const FlightTab = ({ onFlightDataChange }) => {
         <Card className="shadow-none border">
             <CardBody className="p-4 mb-2">
                 {/* Trip Type Selection */}
-                <div className="flex gap-6 mb-4">
-                    {[
+                <div className="flex gap-6 mb-4 justify-between">
+                    <div className="flex gap-4">{[
                         { label: "One Way", value: "oneWay" },
                         { label: "Round Trip", value: "roundTrip" },
                         { label: "Multi City", value: "multiCity" },
@@ -76,7 +88,66 @@ const FlightTab = ({ onFlightDataChange }) => {
                             </span>
                             {type.label}
                         </label>
-                    ))}
+                    ))}</div>
+                    <div className="flex gap-4">
+                        {/* traveler  */}
+                        <div>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <p className="flex items-center p-1 px-3 bg-ye rounded-lg gap-2 border border-gray-300 focus:outline-none focus:ring focus:border-blue-300">
+                                        1 Traveler <MdArrowDropDown />
+                                    </p>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>
+                                        <div className="flex gap-4 items-center">
+                                            <div className="text-[#32354e]"><IoMan /></div>
+                                            <div>Adults</div>
+                                            <div className="flex items-center gap-3">
+                                                <button
+                                                    className="px-2 py- border rounded-full border-naria-holiday-blue hover:bg-gray-200"
+                                                    onClick={() => {
+                                                        const count = parseInt(
+                                                            document.querySelector(
+                                                                ".dropdown-counter"
+                                                            ).textContent
+                                                        );
+                                                        document.querySelector(
+                                                            ".dropdown-counter"
+                                                        ).textContent = count - 1;
+                                                    }}
+                                                >
+                                                    <p className="text-naria-holiday-blue">-</p>
+                                                </button>
+                                                <span className="dropdown-counter">1</span>
+                                                <button
+                                                    className="px-2 py- border rounded-full hover:bg-gray-200"
+                                                    onClick={() => {
+                                                        const count = parseInt(
+                                                            document.querySelector(
+                                                                ".dropdown-counter"
+                                                            ).textContent
+                                                        );
+                                                        document.querySelector(
+                                                            ".dropdown-counter"
+                                                        ).textContent = count + 1;
+                                                    }}
+                                                >
+                                                    +
+                                                </button>
+                                            </div></div>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                                    <DropdownMenuItem>Team</DropdownMenuItem>
+                                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        {/* economy  */}
+                        <div></div>
+                    </div>
                 </div>
 
                 {/* Input Fields */}
@@ -105,20 +176,7 @@ const FlightTab = ({ onFlightDataChange }) => {
                             className="w-8 h-8 bg-white border border-red-500 rounded-full flex items-center justify-center shadow-md hover:bg-red-100"
                             aria-label="Switch locations"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-5 h-5 text-red-500"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M19.5 12H4.5m0 0l5-5m-5 5l5 5m10 0l-5-5m5 5l-5-5"
-                                />
-                            </svg>
+                            <IoIosSwap />
                         </button>
                     </div>
                     <div>

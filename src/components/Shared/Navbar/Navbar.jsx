@@ -43,7 +43,7 @@ export default function Navbar() {
 
     const menuItems = [
         { name: "Flights", href: "/flight", icon: LuPlane },
-        { name: "Hotels", href: "/contact", icon: LuHotel },
+        { name: "Hotels", href: "/", icon: LuHotel },
         {
             name: "Holiday",
             href: "",
@@ -86,7 +86,7 @@ export default function Navbar() {
     return (
         <>
             <nav className="bg-white border-b fixed w-full z-50 ">
-                <div className="container mx-auto px-4 flex justify-between items-center py-2 md:px-8 lg:px-12">
+                <div className="container mx-auto px-4 flex justify-between items-center py-2 md:px-8 lg:px-12 xl:px-16">
                     {/* Logo */}
                     <Link href="/" legacyBehavior>
                         <a>
@@ -160,7 +160,7 @@ export default function Navbar() {
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden focus:outline-none text-gray-700"
+                        className="md:hidden  focus:outline-none text-gray-700"
                         onClick={toggleMobileMenu}
                     >
                         <span className="sr-only">Toggle Mobile Menu</span>

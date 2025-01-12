@@ -9,10 +9,28 @@ import axios from "axios";
 
 const FlightPage = () => {
     const searchParams = useSearchParams(); // Use useSearchParams for query parameters
-    // console.log(searchParams)
     const [timeRemaining, setTimeRemaining] = useState(600);
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [typingMessage, setTypingMessage] = useState("");
+
+    const messages = ["Please wait, we are finding the best flights for you..."];
+    let messageIndex = 0;
+    let charIndex = 0;
+
+    // Typewriter effect
+    useEffect(() => {
+        const typingInterval = setInterval(() => {
+            if (charIndex < messages[messageIndex].length) {
+                setTypingMessage((prev) => prev + messages[messageIndex][charIndex]);
+                charIndex++;
+            } else {
+                clearInterval(typingInterval);
+            }
+        }, 100);
+
+        return () => clearInterval(typingInterval);
+    }, []);
 
     const fetchFlightData = async (data) => {
         try {
@@ -32,10 +50,8 @@ const FlightPage = () => {
     useEffect(() => {
         // Read the query parameter `data`
         const data = searchParams.get("data");
-        console.log(data)
         if (data) {
             const parsedData = JSON.parse(decodeURIComponent(data));
-            console.log(parsedData);
             fetchFlightData(parsedData); // Fetch flights based on passed data
         } else {
             fetchFlightData({
@@ -102,7 +118,7 @@ const FlightPage = () => {
             <div className="mx-auto max-w-5xl">
                 <div className="flex min-h-screen">
                     {/* ------------------------ Sidebar ------------------------ */}
-                    <div className="w-1/4">
+                    <div className="w-1/4 overflow-y-scroll h-screen scrollbar-hide">
                         <div className="gap-3 py-2 pt-5">
                             <div className="bg-white px-4 py-2 rounded-xl flex items-center justify-between gap-6">
                                 <div className="flex items-center justify-between font-semibold">
@@ -121,15 +137,47 @@ const FlightPage = () => {
                         <div className="py-2">
                             <PriceRange />
                         </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
+                        <div className="py-2">
+                            <PriceRange />
+                        </div>
                     </div>
                     {/* Main content */}
-                    <div className="flex-1 p-4">
+                    <div className="flex-1 overflow-y-scroll h-screen p-4 scrollbar-hide">
                         {loading ? (
-                            <div className="bg-white p-12 rounded-2xl shadow-md">
-                                <div className="h-10 w-full bg-gray-200 rounded-full animate-pulse"></div>
-                                <div className="h-6 w-1/2 bg-gray-200 rounded-full mt-4 animate-pulse"></div>
-                                <div className="h-6 w-1/4 bg-gray-200 rounded-full mt-4 animate-pulse"></div>
-                            </div>
+                            <>
+                                {/* Typewriter Animation */}
+                                <div className="text-center text-lg font-medium mb-4">
+                                    {typingMessage}
+                                </div>
+                                {/* Skeleton Cards */}
+                                <div className="space-y-4">
+                                    {[...Array(4)].map((_, index) => (
+                                        <div
+                                            key={index}
+                                            className="bg-white p-6 rounded-2xl shadow-md animate-pulse space-y-4"
+                                        >
+                                            <div className="h-10 w-full bg-gray-200 rounded-lg"></div>
+                                            <div className="h-6 w-1/2 bg-gray-200 rounded-lg"></div>
+                                            <div className="h-6 w-1/4 bg-gray-200 rounded-lg"></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         ) : timeRemaining === 0 || flights.length === 0 ? (
                             <div className="bg-white p-12 rounded-2xl shadow-md">
                                 <h1 className="text-3xl font-bold">No Flights Available</h1>
@@ -137,7 +185,10 @@ const FlightPage = () => {
                                     Sorry, we couldn't find any flights for your search criteria. Please try
                                     again with different dates or destinations.
                                 </p>
-                                <button className="btn px-6 py-2 bg-[#de810732] text-[#f28325] font-semibold rounded-2xl shadow-md hover:bg-[#f28c2f] hover:text-white hover:shadow-lg transition duration-300">
+                                <button
+                                    className="btn px-6 py-2 bg-[#de810732] text-[#f28325] font-semibold rounded-2xl shadow-md hover:bg-[#f28c2f] hover:text-white hover:shadow-lg transition duration-300"
+                                    onClick={() => window.location.reload()}
+                                >
                                     Try Again
                                 </button>
                             </div>
